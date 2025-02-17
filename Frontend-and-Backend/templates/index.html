@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Ultrasound Image App by DSP Lab, BUET</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black; /* Initial background color */
+            color: rgb(7, 7, 7);
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            transition: background-image 1s ease, background-color 1s ease;
+        }
+        /* Sidebar styling */
+        .animation01{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .border_box{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15vw;
+            height: 15vw;
+        }
+        .line{
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background-color: #845b46;
+            opacity: 0;
+        }
+        .line01{
+            top: 0;
+            left: 100%;
+            width: 0.15vw;
+            height: 15.15vw;
+            transform-origin: bottom;
+            animation: animation01_line01 0.2s linear 0.3s forwards;
+        }
+        .line03{
+            top: 0;
+            left: 0;
+            width: 0.15vw;
+            height: 15.15vw;
+            transform-origin: bottom;
+            animation: animation01_line01 0.2s linear 0.6s forwards;
+        }
+        @keyframes animation01_line01{
+            0%{
+                transform: scale3d(1,0,1);
+                opacity: 1;
+            }
+            100%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+        }
+        .line02{
+            top: 100%;
+            left: 0;
+            width: 15.15vw;
+            height: 0.15vw;
+            transform-origin: right;
+            animation: animation01_line02 0.2s linear 0.4s forwards;
+        }
+        .line04{
+            top: 0;
+            left: 0;
+            width: 15.15vw;
+            height: 0.15vw;
+            transform-origin: left;
+            animation: animation01_line02 0.2s linear 0.8s forwards;
+        }
+        @keyframes animation01_line02{
+            0%{
+                transform: scale3d(0,1,1);
+                opacity: 1;
+            }
+            100%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+        }
+        .circle{
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 1.2vw;
+            height: 1.2vw;
+            border: 0.1vw solid #fff;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        .circle01{
+            top: 96%;
+            left: 96%;
+            margin: 0 auto;
+            animation: animation01_circle 0.3s linear 0.3s forwards;
+        }
+        .circle02{
+            top: 96%;
+            left: -99%;
+            margin: 0 auto;
+            animation: animation01_circle 0.3s linear 0.45s forwards;
+        }
+        .circle03{
+            top: -4%;
+            left: -99%;
+            margin: 0 auto;
+            animation: animation01_circle 0.3s linear 0.65s forwards;
+        }
+        .circle04{
+            top: -4%;
+            left: 96%;
+            margin: 0 auto;
+            animation: animation01_circle 0.3s linear 0.85s forwards;
+        }
+        @keyframes animation01_circle{
+            0%{
+                transform: scale3d(0,0,1);
+                opacity: 1;
+            }
+            40%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+            60%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+            100%{
+                transform: scale3d(0,0,1);
+                opacity: 1;
+            }
+        }
+
+        .wave{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 13.5vw;
+            height: 13.5vw;
+            overflow: hidden;
+        }
+        .wave_wrapper{
+            width: 200%;
+            height: 150%;
+            position: absolute;
+            top: -25%;
+            right: 0;
+            bottom: 0;
+            left: -50%;
+            margin: 0 auto;
+            animation: animation01_wave_wrapper 1s linear 1s forwards;
+        }
+        @keyframes animation01_wave_wrapper{
+            0%{
+                transform: rotate(0);
+            }
+            25%{
+                transform: rotate(15deg);
+            }
+            50%{
+                transform: rotate(0);
+            }
+            75%{
+                transform: rotate(-15deg);
+            }
+            100%{
+                transform: rotate(0);
+            }
+        }
+        .wave_box{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            transform-origin: bottom;
+            animation: animation01_wave_box 1s linear 1s forwards;
+            opacity: 0;
+        }
+        @keyframes animation01_wave_box{
+            0%{
+                transform: scale3d(1,0,1);
+                opacity: 1;
+            }
+            100%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+        }
+        .animation_line{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 0 auto;
+            background-color: #fff;
+            opacity: 0;
+        }
+        .animation_line_wrapper{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+        .animation_line01{
+            top: -15%;
+            left: 0;
+            width: 0.2vw;
+            height: 0.7vw;
+            animation: animation_line01 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: top;
+        }
+        .animation_line02_wrapper{
+            transform: rotate(45deg)
+        }
+        .animation_line02{
+            top: -35%;
+            left: 0;
+            width: 0.2vw;
+            height: 0.7vw;
+            animation: animation_line01 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: top;
+        }
+        @keyframes animation_line01{
+            0%{
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateY(-1.5vw);
+                opacity: 1;
+            }
+        }
+        .animation_line03{
+            top: 50%;
+            left: 110%;
+            width: 0.7vw;
+            height: 0.2vw;
+            animation: animation_line03 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: right;
+        }
+        .animation_line04_wrapper{
+            transform: rotate(45deg)
+        }
+        .animation_line04{
+            top: 50%;
+            left: 128%;
+            width: 0.7vw;
+            height: 0.2vw;
+            animation: animation_line03 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: right;
+        }
+        @keyframes animation_line03{
+            0%{
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateX(1.5vw);
+                opacity: 1;
+            }
+        }
+        .animation_line05{
+            top: 110%;
+            left: 0;
+            width: 0.2vw;
+            height: 0.7vw;
+            animation: animation_line05 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: bottom;
+        }
+        .animation_line06_wrapper{
+            transform: rotate(45deg)
+        }
+        .animation_line06{
+            top: 128%;
+            left: 0;
+            width: 0.2vw;
+            height: 0.7vw;
+            animation: animation_line05 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: bottom;
+        }
+        @keyframes animation_line05{
+            0%{
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateY(1.5vw);
+                opacity: 1;
+            }
+        }
+        .animation_line07{
+            top: 50%;
+            left: -130%;
+            width: 0.7vw;
+            height: 0.2vw;
+            animation: animation_line07 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: left;
+        }
+        .animation_line08_wrapper{
+            transform: rotate(45deg)
+        }
+        .animation_line08{
+            top: 50%;
+            left: -162%;
+            width: 0.7vw;
+            height: 0.2vw;
+            animation: animation_line07 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) 1.9s;
+            transform-origin: left;
+        }
+        @keyframes animation_line07{
+            0%{
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateX(-1.5vw);
+                opacity: 1;
+            }
+        }
+
+        .rhombus{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rhombus 0.2s linear 2.2s forwards;
+        }
+        @keyframes rhombus {
+            0%{
+                transform: rotate(0)
+            }
+            100%{
+                transform: rotate(45deg)
+            }
+        }
+        .rhombus_small{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rhombus_small 0.4s linear 2.55s forwards;
+        }
+        @keyframes rhombus_small {
+            0%{
+                transform: scale3d(1,1,1);
+                opacity: 1;
+            }
+            99%{
+                transform: scale3d(0.15,0.15,0.15);
+                opacity: 1;
+            }
+            100%{
+                transform: scale3d(0.15,0.15,0.15);
+                opacity: 0;
+            }
+        }
+
+        /*===================
+        animation02
+        ====================*/
+        .animation02{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .rhombus_box{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 40vw;
+            height: 40vw;
+            animation: rhombus_box 0.4s linear 3.55s forwards;
+        }
+        .rhombus_item_wrapper{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 2.1vw;
+            height: 2.1vw;
+            opacity: 0;
+        }
+        .rhombus_item{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 2.1vw;
+            height: 2.1vw;
+            background-color: #fff;
+            transform: rotate(45deg)
+        }
+        .rhombus_item01_wrapper{
+            animation: rhombus_item01 0.5s linear 2.95s forwards;
+        }
+
+        .rhombus_item02_wrapper{
+            animation: rhombus_item02 0.5s linear 2.95s forwards;
+        }
+        @keyframes rhombus_item01{
+            0%{
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateX(-18.5vw);
+                opacity: 1;
+            }
+        }
+        @keyframes rhombus_item02{
+            0%{
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100%{
+                transform: translateX(18.5vw);
+                opacity: 1;
+            }
+        }
+        @keyframes rhombus_box{
+            0%{
+                transform: rotate(0)
+            }
+            100%{
+                transform: rotate(360deg)
+            }
+        }
+
+        .double_content{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+        }
+        .double_wrapper02{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            animation: double_content forwards;
+            opacity: 0;
+        }
+        .double_wrapper01{
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .double_wrapper01::before {
+            content: "";
+            display: block;
+            position: absolute;
+            background: #212022;
+            z-index: 2;
+        }
+        .double_wrapper01::after {
+            content: "";
+            display: block;
+            position: absolute;
+            background: #212022;
+            z-index: 3;
+        }
+        /*============
+        dotted circle
+        ============*/
+        .dotted02{
+            top: 0;
+            animation-delay: 4.2s;
+        }
+        .dotted_hide{
+            position: absolute;
+            width: 31vw;
+            height: 31vw;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .dotted01{
+            width: 30vw;
+            height: 30vw;
+            border: dotted 0.5vw #fff;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: visible;
+        }
+        .dotted_right::before{
+            content: "";
+            display: block;
+            position: absolute;
+            background: #212022;
+            z-index: 3;
+        }
+        .dotted_right::before{
+            top: 0;
+            left: 0;
+            width: 32vw;
+            height: 32vw;
+            transform-origin: left 16vw;
+            animation: rotate-circle-right 0.5s linear 4.2s forwards;
+        }
+        .dotted_right{
+            position: absolute;
+            width: 16vw;
+            height: 32vw;
+            z-index: 1;
+            top: 50%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+        }
+        .dotted01::after{
+            top: -1vw;
+            left: -17vw;
+            width: 32vw;
+            height: 32vw;
+            transform-origin: right 16vw;
+            animation: rotate-circle-left01 0.5s linear 4.2s forwards;
+        }
+        @keyframes rotate-circle-left01 {
+            0%   {
+                transform: rotate(0deg);
+                background: #212022;
+                opacity: 1;
+            }
+            50%  {
+                transform: rotate(-180deg);
+                background: #212022;
+                opacity: 1;
+            }
+            50.01% {
+                transform: rotate(0deg);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0deg);
+                opacity: 0;
+            }
+        }
+        /*============
+        white circle
+        ============*/
+        .white02{
+            top: -100%;
+            animation-delay: 4.7s;
+        }
+        .white01{
+            width: 29vw;
+            height: 29vw;
+            background: #fff;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .white01::before{
+            top: 0;
+            left: 14.5vw;
+            width: 29vw;
+            height: 29vw;
+            transform-origin: left 14.5vw;
+            animation: rotate-circle-right 0.3s linear 4.7s forwards;
+
+        }
+        .white01::after{
+            top: 0;
+            left: -14.5vw;
+            width: 29vw;
+            height: 29vw;
+            transform-origin: right 14.5vw;
+            animation: rotate-circle-left 0.3s linear 4.7s forwards;
+        }
+        @keyframes rotate-circle-left {
+            0%   {
+                transform: rotate(0deg);
+                background: #212022;
+            }
+            50%  {
+                transform: rotate(-180deg);
+                background: #212022;
+            }
+            50.01% {
+                transform: rotate(-360deg);
+                background: #fff;
+            }
+            100% {
+                transform: rotate(-360deg);
+                background: #fff;
+            }
+        }
+        /*============
+        gray circle
+        ============*/
+        .gray02{
+            top: -200%;
+            animation-delay: 4.8s;
+        }
+        .gray01{
+            width: 8vw;
+            height: 8vw;
+            background: #808184;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .gray01::before{
+            top: 0;
+            left: 4vw;
+            width: 8vw;
+            height: 8vw;
+            background: #fff;
+            transform-origin: left 4vw;
+            animation: rotate-circle-right 0.5s linear 4.8s forwards;
+
+        }
+        .gray01::after{
+            top: 0;
+            left: -4vw;
+            width: 8vw;
+            height: 8vw;
+            background: #fff;
+            transform-origin: right 4vw;
+            animation: rotate-circle-left03 0.5s linear 4.8s forwards;
+        }
+        @keyframes rotate-circle-left03 {
+            0%   {
+                transform: rotate(0deg);
+                background: #fff;
+            }
+            50%  {
+                transform: rotate(-180deg);
+                background: #fff;
+            }
+            50.01% {
+                transform: rotate(-360deg);
+                background: #808184;
+            }
+            100% {
+                transform: rotate(-360deg);
+                background: #808184;
+            }
+        }
+        /*============
+        orange circle
+        ============*/
+        .orange02{
+            top: -300%;
+            animation-delay: 5.3s;
+        }
+        .orange01{
+            width: 27vw;
+            height: 27vw;
+            background: #f47141;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .orange01::before{
+            top: 0;
+            left: 13.5vw;
+            width: 27vw;
+            height: 27vw;
+            background: #fff;
+            transform-origin: left 13.5vw;
+            animation: rotate-circle-right 0.5s linear 5.3s forwards;
+
+        }
+        .orange01::after{
+            top: 0;
+            left: -13.5vw;
+            width: 27vw;
+            height: 27vw;
+            background: #fff;
+            transform-origin: right 13.5vw;
+            animation: rotate-circle-left02 0.5s linear 5.3s forwards;
+        }
+        @keyframes rotate-circle-left02 {
+            0%   {
+                transform: rotate(0deg);
+                background: #fff;
+            }
+            50%  {
+                transform: rotate(-180deg);
+                background: #fff;
+            }
+            50.01% {
+                transform: rotate(-360deg);
+                background: #f47141;
+            }
+            100% {
+                transform: rotate(-360deg);
+                background: #f47141;
+            }
+        }
+
+        @keyframes double_content{
+            0%{
+            opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+        @keyframes rotate-circle-right {
+            0%   { transform: rotate(0deg); }
+            50%  { transform: rotate(0deg); }
+            100% { transform: rotate(-180deg); }
+        }
+
+        .name{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30vw;
+            height: 30vw;
+            animation: name 1.0s cubic-bezier(0.165, 0.84, 0.44, 1) 5.9s forwards;
+            opacity: 0;
+        }
+        .name p{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 2.0vw;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            letter-spacing: 0.1em;
+        }
+        .name_circle01{
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            width: 2vw;
+            height: 2vw;
+            border-radius: 50%;
+        }
+        .name_circle02{
+            position: absolute;
+            top: 50%;
+            left: 80%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            width: 2vw;
+            height: 2vw;
+            border-radius: 50%;
+        }
+        @keyframes name {
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+        .sidebar {
+            width: 250px;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: absolute; /* Hidden initially */
+            left: -250px; /* Initially hide the sidebar */
+            top: 0;
+            height: 100%;
+            transition: left 0.5s ease; /* Smooth transition when showing the sidebar */
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            background: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: #357ABD;
+        }
+
+        /* The animation container */
+        /* .animation-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #4A90E2;
+            position: absolute;
+            top: 0;
+        left: 0;
+            z-index: 2;
+            transition: opacity 1s ease-in-out;
+        } */
+
+        
+        /* Chat interface */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0; /* Hide chat initially */
+            transition: opacity 1s ease-in-out; /* Smooth fade-in for the chat */
+        }
+
+        .chatbox {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h2 {
+            background: #4A90E2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin: 5px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: #4A90E2;
+            color: white;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: #E0E0E0;
+        }
+
+        #input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: white;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+            background: #f4f4f4;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            background: #4A90E2;
+            color: white;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #357ABD;
+        }
+
+        #error-message {
+            color: red;
+            text-align: center;
+            padding: 10px;
+            display: none;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .history-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background: #ddd;
+        }
+        .animation01.hidden {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        .animation02.hidden {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        .name.hidden {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="animation01" id="animation01">
+        <div class="rhombus_small">
+            <div class="rhombus">
+                <div class="border_box">
+                    <span class="line line01"></span>
+                    <span class="line line02"></span>
+                    <span class="line line03"></span>
+                    <span class="line line04"></span>
+                    <span class="circle circle01"></span>
+                    <span class="circle circle02"></span>
+                    <span class="circle circle03"></span>
+                    <span class="circle circle04"></span>
+                    <span class="animation_line animation_line01"></span>
+                    <span class="animation_line_wrapper animation_line02_wrapper"><span class="animation_line animation_line02"></span></span>
+                    <span class="animation_line animation_line03"></span>
+                    <span class="animation_line_wrapper animation_line04_wrapper"><span class="animation_line animation_line04"></span></span>
+                    <span class="animation_line animation_line05"></span>
+                    <span class="animation_line_wrapper animation_line06_wrapper"><span class="animation_line animation_line06"></span></span>
+                    <span class="animation_line animation_line07"></span>
+                    <span class="animation_line_wrapper animation_line08_wrapper"><span class="animation_line animation_line08"></span></span>
+                </div>
+                <div class="wave">
+                    <div class="wave_wrapper"><div class="wave_box"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="animation02" id="animation02">
+        <div class="rhombus_box">
+            <span class="rhombus_item_wrapper rhombus_item01_wrapper"><span class="rhombus_item"></span></span>
+            <span class="rhombus_item_wrapper rhombus_item02_wrapper"><span class="rhombus_item"></span></span>
+        </div>
+        <div class="double_content">
+            <div class="double_wrapper02 dotted02"><div class="dotted_hide"><div class="double_wrapper01 dotted01"><span class="dotted_right"></span></div></div></div>
+            <div class="double_wrapper02 white02"><div class="double_wrapper01 white01"></div></div>
+            <div class="double_wrapper02 gray02"><div class="double_wrapper01 gray01"></div></div>
+            <div class="double_wrapper02 orange02"><div class="double_wrapper01 orange01"></div></div>
+        </div>
+        <div class="name" id = "name">
+            <p>Breast Ultrasound Image App developed by DSP LAB, BUET</p>
+            <span class="name_circle01"></span>
+            <span class="name_circle02"></span>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chatbox">
+            <h2>Breast Ultrasound Image App</h2>
+            <div id="messages"></div>
+            <div id="error-message">There was an issue with the server. Please try again later.</div>
+
+            <div id="input-area">
+                <input type="text" id="message" placeholder="Type patient name..." onkeypress="handleKeyPress(event)" />
+                <input type="file" id="image-upload" accept="image/*" onchange="previewImage(event)" style="display:none;" />
+                <button onclick="triggerImageUpload()">Upload Image</button>
+                <button onclick="sendMessage()">Send</button>
+            </div>
+
+            <div id="image-preview-container" style="display:none;">
+                <img id="image-preview" src="" alt="Image Preview" style="max-width: 200px; height: auto;"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simplified sidebar without history -->
+    <div class="sidebar" id="sidebar">
+        <h3>Navigation</h3>
+        <button onclick="newChat()">New Chat</button>
+    </div>
+
+    <script>
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('animation01').classList.add('hidden');
+                document.getElementById('animation02').classList.add('hidden');
+                document.getElementById('name').classList.add('hidden');
+                document.body.style.backgroundImage = "url('https://i.ibb.co.com/XfKqg8Mj/pexels-leeloothefirst-7805653.jpg')";
+                document.getElementById('chatContainer').style.opacity = 1;
+                document.getElementById('sidebar').style.left = '0';
+            }, 3000);
+        };
+
+        function triggerImageUpload() {
+            document.getElementById('image-upload').click();
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageContainer = document.getElementById('image-preview-container');
+                    const imagePreview = document.getElementById('image-preview');
+                    imagePreview.src = e.target.result;
+                    imageContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("Please select a valid image.");
+            }
+        }
+
+        async function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const fileInput = document.getElementById('image-upload');
+            const messagesDiv = document.getElementById('messages');
+            const errorMessageDiv = document.getElementById('error-message');
+
+            const message = messageInput.value.trim();
+            const file = fileInput.files[0];
+
+            if (!message && !file) return;
+
+            const formData = new FormData();
+            if (message) formData.append('message', message);
+            if (file) formData.append('image', file);
+
+            // Display user's message
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            if (file) {
+                const imgMessage = document.createElement('img');
+                imgMessage.src = URL.createObjectURL(file);
+                imgMessage.classList.add('image-message');
+                imgMessage.style.maxWidth = '200px';
+                imgMessage.style.height = 'auto';
+                
+                // Ensure the image is displayed first
+                userMessage.appendChild(imgMessage);
+            }
+
+            if (message) {
+                const textMessage = document.createElement('div'); // Use a <div> for block display
+                textMessage.textContent = message;
+                textMessage.style.display = 'block'; // Ensures it appears under the image
+                userMessage.appendChild(textMessage);
+            }
+
+            messagesDiv.appendChild(userMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Clear inputs
+            messageInput.value = "";
+            fileInput.value = "";
+            document.getElementById('image-preview-container').style.display = 'none';
+            // Send request to backend
+            fetch('/chat', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot-message');
+                
+            if (data.image) {
+                const imgMessage = document.createElement('img');
+                
+                if (data.image.startsWith('http')) {  
+                    imgMessage.src = data.image;  // Correct full URL
+                } else {
+                    imgMessage.src = `/uploads/${data.image}`;  // Fix broken path
+                }
+
+                imgMessage.classList.add('image-message');
+                imgMessage.style.maxWidth = '200px';
+                imgMessage.style.height = 'auto';
+                botMessage.appendChild(imgMessage);
+            }
+
+            if (data.response) {
+                //const textMessage = document.createElement('div'); // Use a div to ensure block display
+                const responseLines = data.response.split('\n');
+                responseLines.forEach(line => {
+                    const textMessage = document.createElement('div');
+                    textMessage.textContent = line;  // Add each line as separate div
+                    textMessage.style.display = 'block'; // Ensures each part appears on a new line
+                    botMessage.appendChild(textMessage);
+                });
+                //textMessage.textContent = data.response;
+                //textMessage.style.display = 'block'; // Ensures it appears under the image
+                //botMessage.appendChild(textMessage);
+            }
+                const currentTime = new Date();
+                let hours = currentTime.getHours();
+                const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+
+                // Convert 24-hour format to 12-hour format
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+
+                const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;  // Format time as HH:MM:SS AM/PM
+
+                // Create a timestamp div and append it at the end
+                const timestampDiv = document.createElement('div');
+                timestampDiv.classList.add('timestamp');
+                timestampDiv.textContent = `Time: ${timeString}`;  // Display current time
+                botMessage.appendChild(timestampDiv);
+
+
+                messagesDiv.appendChild(botMessage);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessageDiv.style.display = 'block';
+            });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        function newChat() {
+            document.getElementById('messages').innerHTML = '';
+            document.getElementById('message').value = '';
+            document.getElementById('error-message').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
